@@ -8,7 +8,7 @@ from keras.optimizers import Adam
 from keras.callbacks import ModelCheckpoint
 from keras.layers import Lambda, Conv2D, MaxPooling2D, Dropout, Dense, Flatten
 
-# from utils import INPUT_SHAPE, batch_generator
+from utils import INPUT_SHAPE, batch_generator
 
 import argparse
 import os
@@ -44,7 +44,20 @@ def load_data(args):
   return X_train, X_validate, y_train, y_validate
 
 def build_model(args):
-  pass
+  """ Builds model using Keras
+  """
+  model = Sequential()
+
+  # Image normalization
+  model.add(Lambda(lambda x: x/127.5-1.0, input_shape=INPUT_SHAPE))
+  
+  # Feature detection
+
+  # Avoid overfitting
+
+  # Predict steering angle
+
+  return model
 
 def train_model(model, args, X_train, X_validate, y_train, y_validate):
   pass
