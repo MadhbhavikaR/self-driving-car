@@ -44,7 +44,7 @@ def load_data(args):
   return X_train, X_validate, y_train, y_validate
 
 def build_model(args):
-  """ Builds model using Keras
+  """ Builds model using Keras.
   """
   model = Sequential()
 
@@ -52,10 +52,35 @@ def build_model(args):
   model.add(Lambda(lambda x: x/127.5-1.0, input_shape=INPUT_SHAPE))
   
   # Feature detection
+  model.add(Conv2D(
+    24, 5, 5, activation="elu", subsample(2, 2)
+  ))
+  model.add(Conv2D(
+    36, 5, 5, activation="elu", subsample(2, 2)
+  ))
+  model.add(Conv2D(
+    48, 5, 5, activation="elu", subsample(2, 2)
+  ))
+  model.add(Conv2D(
+    64, 3, 3, activation="elu"
+  ))
+  model.add(Conv2D(
+    64, 3, 3, activation="elu"
+  ))
 
   # Avoid overfitting
+  model.add(Dropout(args.keep_prob))
+
+  # Flatten
+  model.add(Flatten())
 
   # Predict steering angle
+  model.add(Dense(100, activation="elu"))
+  model.add(Dense(50, activation="elu"))
+  model.add(Dense(10, activation="elu"))
+  model.add(Dense(1))
+
+  model.summary()
 
   return model
 
