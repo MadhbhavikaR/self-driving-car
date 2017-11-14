@@ -85,7 +85,42 @@ def build_model(args):
   return model
 
 def train_model(model, args, X_train, X_validate, y_train, y_validate):
-  pass
+  """ Trains the model. 
+  """
+  # 1) Save the model after each epoch
+  checkpoint = ModelCheckpoint(
+    "model-{epoch:03d}.h5",
+    monitor='val_loss',
+    verbose=0,
+    save_best_only=args.save_best_only,
+    mode='auto'
+  )
+
+  # 2) Compile the model
+  model.compile(
+    loss="mean_squared_error",
+    optimizer=Adam(lr=args.learning_rate)
+  )
+
+  # 3) Fit the model
+  model.fit(
+    batch_generator(
+      args.data_dir, X_train, y_train, args.batch_size, True
+    ),
+    arg.samples_per_epoch,
+    arg.epochs,
+    max_q_size=1,
+    validation_data=batch_generator(
+      args.data_dir, X_validate, y_validate, args.batch_size, False
+    ),
+    nb_val_samples=len(X_validate),
+    callbacks=[checkpoint],
+    verbose=1
+  )
+
+def string_to_boolean():
+  s = s.lower()
+  return s == "true" or s == "yes" or s == "y" or s == "1"
 
 def main():
   pass
