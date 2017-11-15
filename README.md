@@ -2,4 +2,5 @@
 
 ## Dependencies
 
-- Udacity's [self-driving car simulator](https://github.com/udacity/self-driving-car-sim)
+- Udacity's [self-driving car simulator](https://github.com/udacity/self-driving-car-sim).
+- [Keras](https://keras.io/).
