@@ -35,3 +35,22 @@ def convert_rgb_to_yuv(image):
   return cv2.cvtColor(
     image, cv2.COLOR_RGB2YUV
   )
+
+def preprocess_image(image):
+  """ Combination of crop, resize and RGB to YUV conversion operations.
+  """
+  return convert_rgb_to_yuv(
+    resize_image(
+      crop_image(image)
+    )
+  )
+
+def choose_image(data_dir, center, left, right, steering_angle):
+  """ Choose random image from center, left or right and adjust steering angle.
+  """
+  choice = np.random.choice(3)
+  if choice == 0:
+    return load_image(data_dir, left), steering_angle + 0.2
+  elif choice == 1:
+    return load_image(data_dir, right), steering_angle - 0.2
+  return load_image(data_dir, center), steering_angle
