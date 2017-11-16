@@ -53,13 +53,13 @@ def build_model(args):
   
   # Feature detection
   model.add(Conv2D(
-    24, 5, 5, activation="elu", subsample(2, 2)
+    24, 5, 5, activation="elu", subsample=(2, 2)
   ))
   model.add(Conv2D(
-    36, 5, 5, activation="elu", subsample(2, 2)
+    36, 5, 5, activation="elu", subsample=(2, 2)
   ))
   model.add(Conv2D(
-    48, 5, 5, activation="elu", subsample(2, 2)
+    48, 5, 5, activation="elu", subsample=(2, 2)
   ))
   model.add(Conv2D(
     64, 3, 3, activation="elu"
@@ -107,8 +107,8 @@ def train_model(model, args, X_train, X_validate, y_train, y_validate):
     batch_generator(
       args.data_dir, X_train, y_train, args.batch_size, True
     ),
-    arg.samples_per_epoch,
-    arg.epochs,
+    args.samples_per_epoch,
+    args.epochs,
     max_q_size=1,
     validation_data=batch_generator(
       args.data_dir, X_validate, y_validate, args.batch_size, False
@@ -118,7 +118,7 @@ def train_model(model, args, X_train, X_validate, y_train, y_validate):
     verbose=1
   )
 
-def string_to_boolean():
+def string_to_boolean(s):
   s = s.lower()
   return s == "true" or s == "yes" or s == "y" or s == "1"
 
@@ -126,28 +126,28 @@ def main():
   # 1) Get command line arguments
   parser = argparse.ArgumentParser(description="Self-driving car")
   parser.add_argument(
-    '-d', help='data directory',        dest='data_dir',          type=str,   default='data'
+    '-d', help='data directory',        dest='data_dir',          type=str,                 default='data'
   )
   parser.add_argument(
-    '-t', help='test size fraction',    dest='test_size',         type=float, default=0.2
+    '-t', help='test size fraction',    dest='test_size',         type=float,               default=0.2
   )
   parser.add_argument(
-    '-k', help='drop out probability',  dest='keep_prob',         type=float, default=0.5
+    '-k', help='drop out probability',  dest='keep_prob',         type=float,               default=0.5
   )
   parser.add_argument(
-    '-n', help='number of epochs',      dest='epochs',            type=int,   default=10
+    '-n', help='number of epochs',      dest='epochs',            type=int,                 default=10
   )
   parser.add_argument(
-    '-s', help='samples per epoch',     dest='samples_per_epoch', type=int,   default=20000
+    '-s', help='samples per epoch',     dest='samples_per_epoch', type=int,                 default=20000
   )
   parser.add_argument(
-    '-b', help='batch size',            dest='batch_size',        type=int,   default=40
+    '-b', help='batch size',            dest='batch_size',        type=int,                 default=40
   )
   parser.add_argument(
-    '-o', help='save best models only', dest='save_best_only',    type=s2b,   default='true'
+    '-o', help='save best models only', dest='save_best_only',    type=string_to_boolean,   default='true'
   )
   parser.add_argument(
-    '-l', help='learning rate',         dest='learning_rate',     type=float, default=1.0e-4
+    '-l', help='learning rate',         dest='learning_rate',     type=float,               default=1.0e-4
   )
   args = parser.parse_args()
 

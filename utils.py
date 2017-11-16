@@ -8,6 +8,8 @@ IMAGE_HEIGHT = 66
 IMAGE_WIDTH = 200 
 IMAGE_CHANNELS = 3
 
+INPUT_SHAPE = (IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS)
+
 
 def load_image(data_dir, image_file):
   return mpimg.imread(
