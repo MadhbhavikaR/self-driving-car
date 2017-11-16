@@ -1,7 +1,8 @@
 import cv2
 import os
-import numpy as numpy
+import numpy as np
 import matplotlib.image as mpimg
+import PIL
 
 
 IMAGE_HEIGHT = 66
@@ -77,7 +78,7 @@ def random_shadow(image):
   """
   x1, y1 = IMAGE_WIDTH * np.random.rand(), 0
   x2, y2 = IMAGE_WIDTH * np.random.rand(), IMAGE_HEIGHT
-  xm, ym, np.mgrid[0:IMAGE_HEIGHT, 0:IMAGE_WIDTH]
+  xm, ym = np.mgrid[0:IMAGE_HEIGHT, 0:IMAGE_WIDTH]
 
   mask = np.zeros_like(image[:, :, 1])
   mask[(ym - y1) * (x2 - x1) - (y2 - y1) * (xm - x1) > 0] = 1
@@ -106,7 +107,7 @@ def augment(data_dir, center, left, right, steering_angle, range_x=100, range_y=
   return image, steering_angle
 
 def batch_generator(data_dir, image_paths, steering_angles, batch_size, is_training):
-  image = np.empty([batch_size, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS])
+  images = np.empty([batch_size, IMAGE_HEIGHT, IMAGE_WIDTH, IMAGE_CHANNELS])
   steers = np.empty(batch_size)
 
   while True:

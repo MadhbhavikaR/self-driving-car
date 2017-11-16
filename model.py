@@ -103,7 +103,7 @@ def train_model(model, args, X_train, X_validate, y_train, y_validate):
   )
 
   # 3) Fit the model
-  model.fit(
+  model.fit_generator(
     batch_generator(
       args.data_dir, X_train, y_train, args.batch_size, True
     ),
